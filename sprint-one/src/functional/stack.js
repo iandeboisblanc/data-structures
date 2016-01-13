@@ -7,9 +7,13 @@ var Stack = function() {
 
   // Implement the methods below
   someInstance.push = function(value) {
+    stackSize++;
   };
 
   someInstance.pop = function() {
+    if(stackSize > 0){
+      stackSize--;
+    }
   };
 
   someInstance.size = function() {
