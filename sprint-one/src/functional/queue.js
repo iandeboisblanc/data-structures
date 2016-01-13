@@ -17,6 +17,7 @@ var Queue = function() {
   someInstance.dequeue = function() {
     if(queueSize > 0){
       queueSize--;
+      //maybe use remove to keep size down?
       return storage[topPosition - queueSize];
     }
   };
