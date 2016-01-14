@@ -8,11 +8,18 @@ var LinkedList = function() {
     //set node value to value
     var newNode = Node(value);
     //set the previous tail.next to equal new node
-    newNode.next = list.tail;
+    if(list.tail) {
+      list.tail.next = newNode;
+    } else {
+      list.head = newNode;
+    }
     list.tail = newNode;
   };
 
   list.removeHead = function() {
+    var headNode = list.head;
+    list.head = headNode.next;
+    return headNode.value;
   };
 
   list.contains = function(target) {
