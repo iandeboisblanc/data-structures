@@ -17,21 +17,24 @@ treeMethods.addChild = function(value) {
 };
 
 treeMethods.contains = function(target) {
+  var doesContain = false;
   //recursive loop through children
   //check if tree value = target
   if(this.value === target){
-    debugger;
-    return true;
+    doesContain = true;
   }
-  //check if tree has children
-  if(this.children.length > 0){
-    //if so, call contains on children
-    debugger;
-    for(var i = 0; i < this.children.length; i++){
-      return this.children[i].contains(target);
+  if(!doesContain){
+    //check if tree has children
+    if(this.children.length > 0){
+      //if so, call contains on children
+      for(var i = 0; i < this.children.length; i++){
+        if(!doesContain){
+          doesContain = this.children[i].contains(target);
+        }
+      }
     }
   }
-  return false;
+  return doesContain;
 };
 
 
