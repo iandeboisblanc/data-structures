@@ -11,17 +11,11 @@ setPrototype.add = function(item) {
 };
 
 setPrototype.contains = function(item) {
-  for(var key in this._storage){
-    if(key){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
+  return item in this._storage;
 };
 
 setPrototype.remove = function(item) {
+  delete this._storage[item];
 };
 
 /*
