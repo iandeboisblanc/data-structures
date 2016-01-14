@@ -17,6 +17,21 @@ treeMethods.addChild = function(value) {
 };
 
 treeMethods.contains = function(target) {
+  //recursive loop through children
+  //check if tree value = target
+  if(this.value === target){
+    debugger;
+    return true;
+  }
+  //check if tree has children
+  if(this.children.length > 0){
+    //if so, call contains on children
+    debugger;
+    for(var i = 0; i < this.children.length; i++){
+      return this.children[i].contains(target);
+    }
+  }
+  return false;
 };
 
 
