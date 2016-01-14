@@ -23,6 +23,24 @@ var LinkedList = function() {
   };
 
   list.contains = function(target) {
+    var isFound = false;
+
+    var nodeChecker = function(node) {
+      //starting with head, check if head.value === target
+      if(!isFound) {
+        if(node.value === target) {
+          isFound = true;
+        } else {
+          if(node.next) {
+            isFound = nodeChecker(node.next);
+          }
+        }
+      }
+      return isFound;
+    };
+
+    return nodeChecker(list.head);
+
   };
 
   return list;
