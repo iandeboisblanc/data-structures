@@ -15,16 +15,17 @@ var LinkedList = function() {
     }
     list.tail = newNode;
   };
+  //O(1)
 
   list.removeHead = function() {
     var headNode = list.head;
     list.head = headNode.next;
     return headNode.value;
   };
+  //O(1)
 
   list.contains = function(target) {
     var isFound = false;
-
     var nodeChecker = function(node) {
       //starting with head, check if head.value === target
       if(!isFound) {
@@ -38,23 +39,19 @@ var LinkedList = function() {
       }
       return isFound;
     };
-
     return nodeChecker(list.head);
-
   };
-
   return list;
 };
+//O(n)
 
 var Node = function(value) {
   var node = {};
-
   node.value = value;
   node.next = null;
-
   return node;
 };
 
 /*
- * Complexity: What is the time complexity of the above functions?
+ * Complexity: What is the time complexity of the above functions? 
  */

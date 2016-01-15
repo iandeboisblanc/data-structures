@@ -27,6 +27,7 @@ HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   storageSetter(this._storage, index, k, v);
 };
+//O(1), except when expanding, then O(n) or maybe even O(n^2)
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
@@ -39,6 +40,7 @@ HashTable.prototype.retrieve = function(k) {
   });
   return value;
 };
+//O(1), but could be O(n)
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
@@ -65,7 +67,7 @@ HashTable.prototype.remove = function(k) {
     this._storage = newStorage;
   }
 };
-
+//O(n) when resizing, O(1) or maybe O(n) otherwise
 function storageSetter(storage, index, k, v){
   if(storage.get(index) === undefined){
     var bucket = [];
