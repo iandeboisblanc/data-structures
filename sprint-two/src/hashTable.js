@@ -9,20 +9,15 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  // var isIn = index in this._storage;
   var alreadyUsed = false;
   this._contentCount = this._contentCount + 1;
-  // var gsadf = this._contentCount;
-  //debugger;
   if(this._storage.get(index) === undefined){
-    var hashObj = {};
-    hashObj[k] = v;
-    this._storage.set(index, hashObj);
+    var bucket = [];
+    this._storage.set(index, bucket);
   }
-  else{
-    var objToAddTo = this._storage.get(index);
-    objToAddTo[k] = v;
-  }
+  var tuple = [k,v];
+  var currentBucket = this._storage.get(index);
+  currentBucket.push(tuple);
   if(this._contentCount > this.determineThreshold(this._limit)){
     //create new storage array
     this._limit = this._limit * 2;
@@ -52,13 +47,24 @@ HashTable.prototype.insert = function(k, v) {
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(index)[k];
+  var bucket = this._storage.get(index);
+  var value;
+  _.each(bucket, function(tuple){
+    if(tuple[0] === k){
+      value = tuple[1];
+    }
+  });
+  return value;
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var objToEdit = this._storage.get(index);
-  delete objToEdit[k];
+  var bucket = this._storage.get(index);
+  _.each(bucket, function(tuple,tupleIndex){
+    if(tuple[0] === k){
+      bucket.splice(tupleIndex,1);
+    }
+  });
   this._contentCount = this._contentCount - 1;
   if(this._contentCount <= this.determineThreshold(this._limit / 2)){
     //create new storage array
