@@ -12,7 +12,7 @@ HashTable.prototype.insert = function(k, v) {
   // var isIn = index in this._storage;
   var alreadyUsed = false;
   this._contentCount = this._contentCount + 1;
-  var gsadf = this._contentCount;
+  // var gsadf = this._contentCount;
   //debugger;
   if(this._storage.get(index) === undefined){
     var hashObj = {};
@@ -28,10 +28,24 @@ HashTable.prototype.insert = function(k, v) {
     this._limit = this._limit * 2;
     var newStorage = LimitedArray(this._limit);
     //iterate through old array
-    for(var i = 0; i < this._limit; i++){
-      //copy values to new array
-      newStorage[i] = this._storage[i];
-    }
+    // this._storage.each(function(valueObj, index, hashTab){
+    //   for(var key in valueObj){
+    //     // key = first names, valueObj[key] = last names/values
+    //     //rehash keys
+    //     index = getIndexBelowMaxForKey(key, this._limit);
+    //     if(this._storage.get(index) === undefined){
+    //       var hashObj = {};
+    //       hashObj[key] = valueObj[key];
+    //       this._storage.set(index, hashObj);
+    //     }
+    //     else{
+    //       var objToAddTo = this._storage.get(index);
+    //       objToAddTo[key] = valueObj[key];
+    //     }
+    //     // newStorage.set(index, hashObj);
+    //     // newStorage.set(getIndexBelowMaxForKey(item[firstName], this._limit), item);
+    //   }
+    // });
     this._storage = newStorage;
   }
 };
@@ -45,7 +59,17 @@ HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var objToEdit = this._storage.get(index);
   delete objToEdit[k];
-  //remove object entirely if empty
+  this._contentCount = this._contentCount - 1;
+  if(this._contentCount <= this.determineThreshold(this._limit / 2)){
+    //create new storage array
+    this._limit = this._limit / 2;
+    var newStorage = LimitedArray(this._limit);
+    //iterate through old array
+    this._storage.each(function(item,index){
+      newStorage.set(index, item);
+    });
+    this._storage = newStorage;
+  }
 };
 
 HashTable.prototype.determineThreshold = function(limit) {
