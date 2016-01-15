@@ -37,7 +37,29 @@ BinarySearchTree.prototype.insert = function(value) {
   recursor(this);
 };
 
-BinarySearchTree.prototype.contains = function() {
+BinarySearchTree.prototype.contains = function(value) {
+
+  var recursor = function(node) {
+
+    if(node.value === value) {
+      return true;
+    } else if (value < node.value) {
+      if(node.left) {
+        return recursor(node.left);
+      } else {
+        return false;
+      }
+    } else {
+      if(node.right) {
+        return recursor(node.right);
+      } else {
+        return false;
+      }
+    }
+
+  };
+
+  return recursor(this);
 
 };
 
