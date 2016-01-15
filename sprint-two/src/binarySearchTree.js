@@ -14,8 +14,27 @@ var BinarySearchTree = function(value) {
 
 };
 
-BinarySearchTree.prototype.insert = function() {
+BinarySearchTree.prototype.insert = function(value) {
 
+  var newNode = BinarySearchTree(value);
+
+  var recursor = function(node) {
+    if(value < node.value) {
+      if(node.left) {
+        recursor(node.left);
+      } else {
+        node.left = newNode;
+      }
+
+    } else {
+      if(node.right) {
+        recursor(node.right);
+      } else {
+        node.right = newNode;
+      }
+    }
+  };
+  recursor(this);
 };
 
 BinarySearchTree.prototype.contains = function() {
