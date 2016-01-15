@@ -63,7 +63,23 @@ BinarySearchTree.prototype.contains = function(value) {
 
 };
 
-BinarySearchTree.prototype.depthFirstLog = function() {
+BinarySearchTree.prototype.depthFirstLog = function(callback) {
+
+  var recursor = function(node) {
+
+    callback(node.value);
+
+    if(node.left) {
+      recursor(node.left);
+    }
+
+    if(node.right) {
+      recursor(node.right);
+    }
+
+  };
+
+  recursor(this);
 
 };
 /*
