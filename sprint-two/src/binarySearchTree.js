@@ -83,6 +83,33 @@ BinarySearchTree.prototype.breadthFirstLog = function(callback) {
   addressNode(this);
 };
 
+BinarySearchTree.prototype.refactorTree = function(){
+  var treeValues = [];
+  this.depthFirstLog(function(nodeValue){
+    treeValues.push(nodeValue);
+  });
+  treeValues.sort(function(a, b){return a-b;});
+  var orderedArray = [];
+  var buildOrderedArray = function(array) {
+    var midpoint = Math.floor(array.length/2);
+    orderedArray.push(array[midpoint]);
+    if(array[midpoint - 1]){
+      var leftArray = array.slice(0,midpoint);
+      buildOrderedArray(leftArray);
+    }
+    if(array[midpoint + 1]){
+      var rightArray = array.slice(midpoint + 1);
+      buildOrderedArray(rightArray);
+    }
+  };
+  buildOrderedArray(treeValues);
+  var newTree = BinarySearchTree(orderedArray[0]);
+  for(var i = 1; i < orderedArray.length; i++){
+    newTree.insert(orderedArray[i]);
+  }
+  return newTree;
+};
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */

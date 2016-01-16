@@ -49,4 +49,17 @@ describe('binarySearchTree', function() {
     binarySearchTree.breadthFirstLog(func);
     expect(array).to.eql([5,2,6,1,3]);
   });
+
+  it('should refactor', function(){
+    var array = [];
+    var func = function(value){ array.push(value); };
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(20);
+    binarySearchTree.insert(22);
+    binarySearchTree.insert(25);
+    binarySearchTree = binarySearchTree.refactorTree();
+    binarySearchTree.breadthFirstLog(func);
+    expect(array).to.eql([20,7,25,5,10,22]);
+  });
 });
