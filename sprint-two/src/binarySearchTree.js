@@ -66,6 +66,23 @@ BinarySearchTree.prototype.depthFirstLog = function(callback) {
 };
 //O(n)
 
+BinarySearchTree.prototype.breadthFirstLog = function(callback) {
+  var buffer = [];
+  var addressNode = function(node) {
+    callback(node.value);
+    if(node.left) {
+      buffer.push(node.left);
+    } 
+    if(node.right) {
+      buffer.push(node.right);
+    }
+    if(buffer.length > 0) {
+      addressNode(buffer.shift());
+    }
+  };
+  addressNode(this);
+};
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
