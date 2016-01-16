@@ -7,12 +7,24 @@ var Set = function() {
 var setPrototype = {};
 
 setPrototype.add = function(item) {
-  this._storage[item] = item;
+  if(typeof item === 'object'){
+    var key = JSON.stringify(item);
+  }
+  else{
+    var key = item;
+  }
+  this._storage[key] = item;
 };
 //O(1)
 
 setPrototype.contains = function(item) {
-  return item in this._storage;
+  if(typeof item === 'object'){
+    var key = JSON.stringify(item);
+  }
+  else{
+    var key = item;
+  }  
+  return key in this._storage;
 };
 //O(1)
 
@@ -24,3 +36,4 @@ setPrototype.remove = function(item) {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+ 
