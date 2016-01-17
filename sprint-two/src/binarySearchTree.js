@@ -1,32 +1,60 @@
 var BinarySearchTree = function(value) {
   var newTree = Object.create(BinarySearchTree.prototype);
-  //properties: left and right set to undefined
   newTree.left = undefined;
   newTree.right = undefined;
-  //value equal to value
   newTree.value = value;
-  //return binary search tree instance
+  newTree.nodeDepth = 0;
+  newTree.maxDepth = 0;
+  newTree.depthTracker = [1];
   return newTree;
 };
 
 BinarySearchTree.prototype.insert = function(value) {
   var newNode = BinarySearchTree(value);
   var recursor = function(node) {
+    newNode.nodeDepth++;
     if(value < node.value) {
       if(node.left) {
-        recursor(node.left);
+        recursor.call(this, node.left);
       } else {
         node.left = newNode;
+        if(newNode.nodeDepth > this.maxDepth) {
+          this.maxDepth = newNode.nodeDepth;
+        }
+        if(this.depthTracker[newNode.nodeDepth]){
+          this.depthTracker[newNode.nodeDepth]++;
+        } else {
+          this.depthTracker[newNode.nodeDepth] = 1;
+        }
       }
     } else {
       if(node.right) {
-        recursor(node.right);
+        recursor.call(this, node.right);
       } else {
         node.right = newNode;
+        if(newNode.nodeDepth > this.maxDepth) {
+          this.maxDepth = newNode.nodeDepth;
+        }
+        if(this.depthTracker[newNode.nodeDepth]){
+          this.depthTracker[newNode.nodeDepth]++;
+        } else {
+          this.depthTracker[newNode.nodeDepth] = 1;
+        }
       }
     }
   };
-  recursor(this);
+  recursor.call(this, this);
+  var minDepth;
+  for(var depth = 0; depth < this.depthTracker.length; depth++){
+    if(minDepth === undefined){
+      if(this.depthTracker[depth] < Math.pow(2, depth)){
+        minDepth = depth - 1;
+      }
+    }
+  }
+  if(this.maxDepth > 2 * minDepth && this.maxDepth > 2){
+    this.rebalanceTree();
+  }
 };
 //O(log n)
 
@@ -83,7 +111,7 @@ BinarySearchTree.prototype.breadthFirstLog = function(callback) {
   addressNode(this);
 };
 
-BinarySearchTree.prototype.refactorTree = function(){
+BinarySearchTree.prototype.rebalanceTree = function(){
   var treeValues = [];
   this.depthFirstLog(function(nodeValue){
     treeValues.push(nodeValue);
@@ -93,7 +121,7 @@ BinarySearchTree.prototype.refactorTree = function(){
   var buildOrderedArray = function(array) {
     var midpoint = Math.floor(array.length/2);
     orderedArray.push(array[midpoint]);
-    if(array[midpoint - 1]){
+    if(array[midpoint - 1] !== undefined){
       var leftArray = array.slice(0,midpoint);
       buildOrderedArray(leftArray);
     }
@@ -103,11 +131,15 @@ BinarySearchTree.prototype.refactorTree = function(){
     }
   };
   buildOrderedArray(treeValues);
-  var newTree = BinarySearchTree(orderedArray[0]);
+  this.value = orderedArray[0];
+  this.left = undefined;
+  this.right = undefined;
+  this.nodeDepth = 0;
+  this.maxDepth = 0;
+  this.depthTracker = [1];
   for(var i = 1; i < orderedArray.length; i++){
-    newTree.insert(orderedArray[i]);
+    this.insert(orderedArray[i]);
   }
-  return newTree;
 };
 
 /*

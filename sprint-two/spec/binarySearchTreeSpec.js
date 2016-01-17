@@ -50,16 +50,15 @@ describe('binarySearchTree', function() {
     expect(array).to.eql([5,2,6,1,3]);
   });
 
-  it('should refactor', function(){
+  it('should rebalance when the max depth is more than twice the minimum', function(){
     var array = [];
     var func = function(value){ array.push(value); };
-    binarySearchTree.insert(7);
-    binarySearchTree.insert(10);
-    binarySearchTree.insert(20);
-    binarySearchTree.insert(22);
-    binarySearchTree.insert(25);
-    binarySearchTree = binarySearchTree.refactorTree();
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(0);
     binarySearchTree.breadthFirstLog(func);
-    expect(array).to.eql([20,7,25,5,10,22]);
+    expect(array).to.eql([4,1,6,0,2,5]);
   });
 });
